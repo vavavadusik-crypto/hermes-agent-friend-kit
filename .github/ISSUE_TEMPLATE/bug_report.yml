@@ -1,0 +1,42 @@
+name: Bug report
+description: Report an install, launcher, provider, or routing problem.
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste API keys, `.env`, `auth.json`, screenshots with secrets, or private `~/.hermes` files.
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - Windows
+        - macOS / WSL2
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the failure and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Safe logs
+      description: Paste redacted output from CHECK_HERMES_ENV or auto-route status. Remove secrets first.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I removed API keys and private paths from this report.
+          required: true
+        - label: I tried the latest release.
+          required: true

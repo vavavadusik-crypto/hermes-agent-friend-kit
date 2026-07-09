@@ -78,8 +78,8 @@ chmod +x scripts/*.sh linux-desktop/*.sh
 - `Hermes Agent Settings` - настройка API-ключей и модели.
 
 Каждый запуск `Hermes Agent` сначала делает auto-route: выбирает лучший
-доступный бесплатный/limited provider, обновляет fallback chain и не ставит
-Ollama cloud-модели автоматически.
+доступный бесплатный/limited provider, проверяет реальный generation endpoint
+и пропускает routes, которые сейчас в rate-limit или не авторизованы.
 Локальные Ollama-модели не выбираются автоматически на слабых ноутбуках. Чтобы
 явно разрешить local fallback, запускай launcher с `HERMES_AGENT_ALLOW_LOCAL=1`.
 
@@ -126,8 +126,13 @@ hermes
 ```
 
 Windows-ярлык `Hermes Agent.cmd` тоже запускает auto-route перед стартом Hermes:
-выбирает первый настроенный бесплатный/limited provider и откатывается на
-локальный Ollama, если API-ключей нет.
+выбирает первый рабочий бесплатный/limited provider и не грузит локальный
+Ollama, пока явно не выставлен `HERMES_AGENT_ALLOW_LOCAL=1`.
+
+## Статус проекта
+
+Смотри `docs/PROJECT_STATUS.md`, `CHANGELOG.md` и
+`docs/GITHUB_HYGIENE_CHECKLIST.md`.
 
 ## Важное
 

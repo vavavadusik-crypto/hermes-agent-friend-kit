@@ -17,6 +17,8 @@ Repository:
 
 Changed areas:
 
+- `scripts/AUTO_ROUTE_LINUX.sh`
+- `scripts/AUTO_ROUTE_WINDOWS.ps1`
 - `scripts/APPLY_HERMES_PRESET.py`
 - `scripts/CONFIGURE_KEYS_LINUX.sh`
 - `scripts/CONFIGURE_KEYS_WINDOWS.ps1`
@@ -31,14 +33,16 @@ Changed areas:
 ## Required checks
 
 1. Confirm free/limited providers stay first.
-2. Confirm `glm-5.2:cloud` is not in any automatic fallback path.
-3. Confirm local Ollama points to `omnicoder-9b-65536ctx:latest`.
-4. Confirm GPT-5.6 is optional premium only.
-5. Confirm `gpt-5.6-terra` is the recommended first paid test and
+2. Confirm auto-route verifies real generation endpoints, not only key presence.
+3. Confirm local Ollama is disabled by default and only enabled with
+   `HERMES_AGENT_ALLOW_LOCAL=1`.
+4. Confirm Ollama cloud is skipped when session usage limit is exhausted.
+5. Confirm GPT-5.6 is optional premium only.
+6. Confirm `gpt-5.6-terra` is the recommended first paid test and
    `gpt-5.6-sol` is reserved for hardest review/final polish.
-6. Confirm no secrets, real API keys, tokens, `.env`, `auth.json`, or private
+7. Confirm no secrets, real API keys, tokens, `.env`, `auth.json`, or private
    `~/.hermes` data are committed.
-7. Confirm Linux and Windows settings scripts stay usable.
+8. Confirm Linux and Windows settings scripts stay usable.
 
 ## OpenAI official docs used
 

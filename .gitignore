@@ -1,6 +1,8 @@
 .env
 *.env
 !.env.example
+auth.json
+.hermes/
 secrets.*
 tokens.*
 *.key
@@ -11,7 +13,12 @@ node_modules/
 .venv/
 venv/
 __pycache__/
+.cache/
+dist/
+build/
+release/
+Hermes-Agent-Release-*/
+*.bundle
 .DS_Store
 Thumbs.db
 *.log
-

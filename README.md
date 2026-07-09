@@ -64,8 +64,8 @@ chmod +x install.sh scripts/*.sh linux-desktop/*.sh
 On a graphical Linux desktop, this also installs a `Hermes Agent` launcher.
 It also installs `Hermes Agent Settings` for API keys and model provider setup.
 Each desktop launch runs a small auto-route check first: it keeps free or
-limited providers first, refreshes the fallback chain, and avoids Ollama cloud
-models unless the user selects them manually.
+limited providers first, verifies real generation endpoints, and skips routes
+that are currently rate-limited or unauthorized.
 Local Ollama models are not selected automatically on weak laptops. To allow
 local fallback explicitly, start the launcher with `HERMES_AGENT_ALLOW_LOCAL=1`.
 It opens Hermes in the normal system terminal when possible, so terminal
@@ -113,12 +113,17 @@ hermes
 
 The Windows desktop `Hermes Agent.cmd` launcher also runs auto-route before
 starting Hermes: it selects the first configured free/limited provider and
-falls back to local Ollama when no API keys are present.
+does not load local Ollama unless `HERMES_AGENT_ALLOW_LOCAL=1` is set.
 
 ## Free keys
 
 See `docs/FREE_KEYS_AND_APIS.md`. A short friend-facing setup letter is in
 `docs/FRIEND_INSTALL_LETTER_RU.md`.
+
+## Project status
+
+See `docs/PROJECT_STATUS.md`, `CHANGELOG.md`, and
+`docs/GITHUB_HYGIENE_CHECKLIST.md`.
 
 ## GPT-5.6
 

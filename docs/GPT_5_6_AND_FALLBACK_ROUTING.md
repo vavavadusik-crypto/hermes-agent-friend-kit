@@ -21,8 +21,9 @@ free/limited inference providers first.
 Local Ollama is disabled by default in auto-route because weak laptops can lock
 up on 7B/9B local models. Enable it explicitly with `HERMES_AGENT_ALLOW_LOCAL=1`.
 
-Do not put Ollama cloud models such as `glm-5.2:cloud` in the automatic
-fallback chain unless the user explicitly wants to spend Ollama cloud quota.
+Ollama cloud models such as `glm-5.2:cloud` and `kimi-k2.7-code:cloud` may be
+checked after the main free/limited providers. They must be skipped when the
+Ollama account reports a session usage limit.
 
 ## GPT-5.6 role
 

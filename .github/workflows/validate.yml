@@ -1,0 +1,47 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Bash syntax
+        run: |
+          bash -n scripts/AUTO_ROUTE_LINUX.sh
+          bash -n scripts/CONFIGURE_KEYS_LINUX.sh
+          bash -n scripts/SET_KEYS_LINUX.sh
+          bash -n linux-desktop/hermes-agent-window
+          bash -n linux-desktop/hermes-agent-launcher
+          bash -n linux-desktop/install_launcher_linux.sh
+          bash -n install.sh
+          bash -n setup/Hermes-Agent-Setup-Linux.sh
+          bash -n scripts/INSTALL_LINUX.sh
+
+      - name: Python syntax
+        run: python3 -m py_compile scripts/APPLY_HERMES_PRESET.py
+
+      - name: Whitespace check
+        run: git diff --check
+
+      - name: Secret pattern scan
+        run: |
+          if grep -RIE --line-number \
+            -e 'sk-[A-Za-z0-9_-]{8,}' \
+            -e 'ghp_[A-Za-z0-9_]{20,}' \
+            -e 'github_pat_[A-Za-z0-9_]{20,}' \
+            -e 'gho_[A-Za-z0-9_]{20,}' \
+            -e 'AIza[0-9A-Za-z_-]{20,}' \
+            -e 'gsk_[A-Za-z0-9]{20,}' \
+            -e 'csk-[A-Za-z0-9]{20,}' \
+            --exclude-dir=.git .; then
+            echo "Potential secret found"
+            exit 1
+          fi
