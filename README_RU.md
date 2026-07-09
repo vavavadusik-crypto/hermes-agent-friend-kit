@@ -12,6 +12,7 @@
 - `skins/eva-terminal.yaml` - наш тёмный neon skin для Hermes, но с оригинальной картинкой Hermes.
 - `linux-desktop/` - Linux launcher с выбором масштаба через окно-ползунок.
 - `docs/FREE_KEYS_AND_APIS.md` - где брать бесплатные/limited API keys.
+- `docs/FRIEND_INSTALL_LETTER_RU.md` - короткое письмо другу: установка, ключи, маршруты.
 - `docs/PUBLIC_NO_KEY_APIS.md` - публичные API без регистрации и ключей.
 - `context/AI_CONTEXT_FOR_FRIEND.md` - сообщение, которое друг может дать другой нейросети.
 
@@ -19,7 +20,7 @@
 
 Для друзей нормальный сценарий такой:
 
-1. Открыть GitHub Releases.
+1. Открыть GitHub Releases: https://github.com/vavavadusik-crypto/hermes-agent-friend-kit/releases/latest
 2. Скачать один setup-файл под свою ОС.
 3. Запустить его.
 4. Добавить свои API-ключи в Hermes Agent Settings.
@@ -32,6 +33,16 @@ Setup-файлы:
 Setup ставит официальный Hermes Agent, применяет наш публичный preset и создаёт
 ярлыки/настройки. Внутри нет моих приватных ключей, `.env`, `auth.json`,
 истории чатов, памяти или личного `~/.hermes/config.yaml`.
+
+Что ставится:
+
+- официальный Hermes Agent от NousResearch;
+- этот публичный friend kit в `~/hermes-agent-friend-kit` или
+  `%USERPROFILE%\hermes-agent-friend-kit`;
+- skin `eva-terminal`;
+- helper-настройки для API-ключей;
+- auto-route перед запуском для бесплатных/limited providers;
+- desktop-ярлыки там, где их поддерживает система.
 
 ## Установка из терминала
 
@@ -65,6 +76,10 @@ chmod +x scripts/*.sh linux-desktop/*.sh
 
 - `Hermes Agent` - запуск Hermes в обычном системном терминале.
 - `Hermes Agent Settings` - настройка API-ключей и модели.
+
+Каждый запуск `Hermes Agent` сначала делает auto-route: выбирает лучший
+доступный бесплатный/limited provider, обновляет fallback chain и не ставит
+Ollama cloud-модели автоматически.
 
 Горячие клавиши остаются стандартными для терминала:
 
@@ -107,6 +122,10 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 .\scripts\CONFIGURE_KEYS_WINDOWS.ps1
 hermes
 ```
+
+Windows-ярлык `Hermes Agent.cmd` тоже запускает auto-route перед стартом Hermes:
+выбирает первый настроенный бесплатный/limited provider и откатывается на
+локальный Ollama, если API-ключей нет.
 
 ## Важное
 

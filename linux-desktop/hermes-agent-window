@@ -5,6 +5,11 @@ cd "$HOME"
 clear
 printf 'Starting Hermes Agent...\n\n'
 
+if command -v hermes-agent-auto-route >/dev/null 2>&1; then
+  hermes-agent-auto-route || true
+  printf '\n'
+fi
+
 if command -v hermes >/dev/null 2>&1; then
   hermes
 else
@@ -16,4 +21,3 @@ printf '\nHermes Agent exited with status %s.\n' "$status"
 printf 'This window stays open so status/errors are visible.\n'
 printf 'Press Ctrl+D or type exit to close it.\n\n'
 exec bash -i
-

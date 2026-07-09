@@ -37,7 +37,7 @@ $Desktop = [Environment]::GetFolderPath("Desktop")
 if ($Desktop) {
   $HermesCmd = Join-Path $Desktop "Hermes Agent.cmd"
   $SettingsCmd = Join-Path $Desktop "Hermes Agent Settings.cmd"
-  Set-Content -Path $HermesCmd -Encoding ASCII -Value "@echo off`r`nset PATH=%LOCALAPPDATA%\hermes\bin;%USERPROFILE%\.local\bin;%PATH%`r`nhermes`r`npause`r`n"
+  Set-Content -Path $HermesCmd -Encoding ASCII -Value "@echo off`r`nset PATH=%LOCALAPPDATA%\hermes\bin;%USERPROFILE%\.local\bin;%PATH%`r`npowershell -NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\AUTO_ROUTE_WINDOWS.ps1`"`r`necho.`r`nhermes`r`npause`r`n"
   Set-Content -Path $SettingsCmd -Encoding ASCII -Value "@echo off`r`npowershell -NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\CONFIGURE_KEYS_WINDOWS.ps1`"`r`npause`r`n"
 }
 

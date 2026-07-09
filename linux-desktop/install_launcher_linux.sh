@@ -6,7 +6,8 @@ mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
 
 cp "$ROOT/linux-desktop/hermes-agent-window" "$HOME/.local/bin/hermes-agent-window"
 cp "$ROOT/linux-desktop/hermes-agent-launcher" "$HOME/.local/bin/hermes-agent-launcher"
-chmod +x "$HOME/.local/bin/hermes-agent-window" "$HOME/.local/bin/hermes-agent-launcher"
+cp "$ROOT/scripts/AUTO_ROUTE_LINUX.sh" "$HOME/.local/bin/hermes-agent-auto-route"
+chmod +x "$HOME/.local/bin/hermes-agent-window" "$HOME/.local/bin/hermes-agent-launcher" "$HOME/.local/bin/hermes-agent-auto-route"
 
 cat > "$HOME/.local/bin/hermes-agent-settings" <<EOF
 #!/usr/bin/env bash
@@ -43,7 +44,7 @@ cat > "$SETTINGS_DESKTOP_FILE" <<'EOF'
 [Desktop Entry]
 Type=Application
 Name=Hermes Agent Settings
-Comment=Configure Hermes Agent API keys and model provider
+Comment=Configure Hermes Agent API keys, model provider, and fallback route
 Exec=__HOME__/.local/bin/hermes-agent-settings
 Icon=preferences-system
 Terminal=false

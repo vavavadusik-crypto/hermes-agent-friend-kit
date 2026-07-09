@@ -4,12 +4,19 @@
 
 ## Рекомендуемый порядок
 
-1. **OpenRouter** - самый удобный старт: один ключ и много моделей, включая free router.
-2. **Groq** - быстрый free-tier/limited inference.
-3. **Cerebras** - быстрый inference, есть Free tier.
-4. **Gemini API / Google AI Studio** - хороший бесплатный/limited ключ для Gemini.
-5. **Ollama** - без cloud key, локально на компьютере, но зависит от железа.
-6. **OpenAI GPT-5.6** - premium-провайдер, не бесплатный; использовать для точечных сложных задач.
+Авто-переключение в нашем `Hermes Agent` использует такой порядок:
+
+1. **Groq** - быстрый free-tier/limited inference.
+2. **Cerebras** - быстрый inference, есть Free tier.
+3. **Gemini API / Google AI Studio** - хороший бесплатный/limited ключ для Gemini.
+4. **NVIDIA NIM** - free/limited developer inference, если есть доступный ключ.
+5. **OpenRouter** - самый удобный ручной старт: один ключ и много моделей, включая free router.
+6. **Ollama** - без cloud key, локально на компьютере, но зависит от железа.
+7. **OpenAI GPT-5.6** - premium-провайдер, не бесплатный; использовать для точечных сложных задач.
+
+Если вставлено несколько ключей, launcher сначала выберет самый верхний
+доступный provider из этого списка. Если ключей нет, будет выбран локальный
+Ollama route.
 
 ## OpenRouter
 
@@ -49,6 +56,14 @@ hermes config set model.default openrouter/free
 - Gemini API docs: https://ai.google.dev/gemini-api/docs
 
 Важно: ограничь ключ только Gemini API, если Google предлагает restriction. Ключ вставляется как `GEMINI_API_KEY`.
+
+## NVIDIA NIM
+
+- API catalog: https://build.nvidia.com/models
+- API key / account settings: https://build.nvidia.com/settings/api-keys
+- OpenAI-compatible endpoint docs: https://docs.api.nvidia.com/nim/
+
+Ключ вставляется как `NVIDIA_API_KEY`.
 
 ## GitHub token
 

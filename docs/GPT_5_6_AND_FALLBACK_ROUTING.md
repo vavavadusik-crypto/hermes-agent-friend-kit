@@ -4,14 +4,19 @@ Updated: 2026-07-09
 
 ## Default policy
 
-This kit keeps free or limited-free providers first:
+This kit keeps free or limited-free providers first. The automatic desktop
+route uses this order:
 
-1. OpenRouter free/low-cost, if the user has a key.
-2. Groq via `custom:groq`.
-3. Cerebras via `custom:cerebras`.
-4. Gemini.
-5. NVIDIA NIM.
+1. Groq via `custom:groq`.
+2. Cerebras via `custom:cerebras`.
+3. Gemini.
+4. NVIDIA NIM.
+5. OpenRouter free/low-cost, if the user has a key.
 6. Local Ollama `omnicoder-9b-65536ctx:latest`.
+
+OpenRouter is still documented as the easiest manual starting point because one
+key can route to many models, but the automatic launcher prefers the fast
+free/limited inference providers first.
 
 Do not put Ollama cloud models such as `glm-5.2:cloud` in the automatic
 fallback chain unless the user explicitly wants to spend Ollama cloud quota.

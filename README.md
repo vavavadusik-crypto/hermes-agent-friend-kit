@@ -8,7 +8,7 @@ This repository does **not** contain personal API keys, tokens, private memory, 
 
 Recommended for friends:
 
-1. Open the GitHub Releases page.
+1. Open the GitHub Releases page: https://github.com/vavavadusik-crypto/hermes-agent-friend-kit/releases/latest
 2. Download one setup file for your OS.
 3. Run it.
 4. Add your own API keys in Hermes Agent Settings.
@@ -22,6 +22,16 @@ The setup file installs official Hermes Agent, applies this public preset, and
 creates launchers/settings helpers. It does **not** contain the maintainer's
 private keys, personal memory, `.env`, `auth.json`, chat history, or private
 model config.
+
+What gets installed:
+
+- official Hermes Agent from NousResearch;
+- this public friend kit in `~/hermes-agent-friend-kit` or
+  `%USERPROFILE%\hermes-agent-friend-kit`;
+- the `eva-terminal` skin;
+- API-key/settings helpers;
+- auto-route before launch for free/limited providers;
+- desktop launchers when the OS supports them.
 
 ## Terminal install
 
@@ -53,6 +63,9 @@ chmod +x install.sh scripts/*.sh linux-desktop/*.sh
 
 On a graphical Linux desktop, this also installs a `Hermes Agent` launcher.
 It also installs `Hermes Agent Settings` for API keys and model provider setup.
+Each desktop launch runs a small auto-route check first: it keeps free or
+limited providers first, refreshes the fallback chain, and avoids Ollama cloud
+models unless the user selects them manually.
 It opens Hermes in the normal system terminal when possible, so terminal
 shortcuts stay standard:
 
@@ -96,9 +109,14 @@ After install, open `Hermes Agent Settings.cmd` from the Desktop, or run:
 hermes
 ```
 
+The Windows desktop `Hermes Agent.cmd` launcher also runs auto-route before
+starting Hermes: it selects the first configured free/limited provider and
+falls back to local Ollama when no API keys are present.
+
 ## Free keys
 
-See `docs/FREE_KEYS_AND_APIS.md`.
+See `docs/FREE_KEYS_AND_APIS.md`. A short friend-facing setup letter is in
+`docs/FRIEND_INSTALL_LETTER_RU.md`.
 
 ## GPT-5.6
 
