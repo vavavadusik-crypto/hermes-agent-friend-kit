@@ -4,7 +4,45 @@ Safe installer/configuration kit for [Hermes Agent](https://github.com/NousResea
 
 This repository does **not** contain personal API keys, tokens, private memory, chat logs, or a copied `~/.hermes` directory. It installs official Hermes Agent, applies a small terminal skin, and gives the user scripts/templates for adding their own free-tier API keys.
 
-## Linux / macOS / WSL2
+## Download and install like a normal app
+
+Recommended for friends:
+
+1. Open the GitHub Releases page.
+2. Download one setup file for your OS.
+3. Run it.
+4. Add your own API keys in Hermes Agent Settings.
+
+Setup files:
+
+- Linux: `Hermes-Agent-Setup-Linux.sh`
+- Windows: `Hermes-Agent-Setup-Windows.cmd`
+
+The setup file installs official Hermes Agent, applies this public preset, and
+creates launchers/settings helpers. It does **not** contain the maintainer's
+private keys, personal memory, `.env`, `auth.json`, chat history, or private
+model config.
+
+## Terminal install
+
+Linux:
+
+```bash
+HERMES_KIT_CONFIGURE_AFTER=1 bash <(curl -fsSL https://raw.githubusercontent.com/vavavadusik-crypto/hermes-agent-friend-kit/main/install.sh)
+```
+
+Windows PowerShell:
+
+```powershell
+$env:HERMES_KIT_CONFIGURE_AFTER="1"; irm https://raw.githubusercontent.com/vavavadusik-crypto/hermes-agent-friend-kit/main/install.ps1 | iex
+```
+
+The one-command installer downloads the full kit to:
+
+- Linux/macOS/WSL2: `~/hermes-agent-friend-kit`
+- Windows: `%USERPROFILE%\hermes-agent-friend-kit`
+
+## Linux desktop
 
 ```bash
 git clone https://github.com/vavavadusik-crypto/hermes-agent-friend-kit.git
@@ -13,12 +51,34 @@ chmod +x install.sh scripts/*.sh linux-desktop/*.sh
 ./install.sh
 ```
 
-After install, edit `scripts/SET_KEYS_LINUX.sh`, paste your own keys, then run:
+On a graphical Linux desktop, this also installs a `Hermes Agent` launcher.
+It also installs `Hermes Agent Settings` for API keys and model provider setup.
+It opens Hermes in the normal system terminal when possible, so terminal
+shortcuts stay standard:
+
+- `Ctrl+Shift+C` copies;
+- `Ctrl+Shift+V` pastes;
+- `Ctrl+C` interrupts a running command.
+
+After install, open `Hermes Agent Settings`, or run:
 
 ```bash
-./scripts/SET_KEYS_LINUX.sh
+./scripts/CONFIGURE_KEYS_LINUX.sh
 hermes
 ```
+
+## macOS / WSL2
+
+Use the same Linux installer, but run Hermes in your normal terminal:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/vavavadusik-crypto/hermes-agent-friend-kit/main/install.sh)
+cd ~/hermes-agent-friend-kit
+./scripts/CONFIGURE_KEYS_LINUX.sh
+hermes
+```
+
+The Linux `.desktop` launcher is only installed when a graphical Linux session is detected.
 
 ## Windows PowerShell
 
@@ -29,25 +89,11 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 .\install.ps1
 ```
 
-After install, edit `scripts\SET_KEYS_WINDOWS.ps1`, paste your own keys, then run:
+After install, open `Hermes Agent Settings.cmd` from the Desktop, or run:
 
 ```powershell
-.\scripts\SET_KEYS_WINDOWS.ps1
+.\scripts\CONFIGURE_KEYS_WINDOWS.ps1
 hermes
-```
-
-## One-command install after publishing
-
-Replace `vavavadusik-crypto` with the real repo owner after publishing:
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/vavavadusik-crypto/hermes-agent-friend-kit/main/install.sh)
-```
-
-Windows:
-
-```powershell
-irm https://raw.githubusercontent.com/vavavadusik-crypto/hermes-agent-friend-kit/main/install.ps1 | iex
 ```
 
 ## Free keys
@@ -78,4 +124,6 @@ See `docs/PUBLIC_NO_KEY_APIS.md` and `public-no-key-connectors.json`.
 
 ## Security
 
-Do not commit `.env`, API keys, tokens, private memories, logs, or copied Hermes home directories.
+This repo is a public installer/preset, not a dump of a private `~/.hermes`
+profile. Do not commit `.env`, API keys, tokens, private memories, logs, copied
+Hermes home directories, or another user's personal model configuration.

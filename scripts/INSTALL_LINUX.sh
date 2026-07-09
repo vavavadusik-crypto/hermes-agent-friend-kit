@@ -27,14 +27,18 @@ fi
 mkdir -p "$HERMES_HOME/skins"
 cp "$ROOT/skins/eva-terminal.yaml" "$HERMES_HOME/skins/eva-terminal.yaml"
 
-hermes config set display.skin eva-terminal || true
-hermes config set toolsets '["hermes-cli","web"]' || true
+if command -v python3 >/dev/null 2>&1; then
+  python3 "$ROOT/scripts/APPLY_HERMES_PRESET.py" "$HERMES_CONFIG_PATH" || true
+elif command -v python >/dev/null 2>&1; then
+  python "$ROOT/scripts/APPLY_HERMES_PRESET.py" "$HERMES_CONFIG_PATH" || true
+else
+  hermes config set display.skin eva-terminal || true
+fi
 
 echo
 echo "Hermes installed/configured."
 echo "Next:"
-echo "1. Edit scripts/SET_KEYS_LINUX.sh and paste your own keys."
-echo "2. Run: ./scripts/SET_KEYS_LINUX.sh"
+echo "1. Run: ./scripts/CONFIGURE_KEYS_LINUX.sh"
+echo "2. Add your own API keys when asked."
 echo "3. Start: hermes"
 echo
-

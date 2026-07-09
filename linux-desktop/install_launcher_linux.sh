@@ -8,29 +8,57 @@ cp "$ROOT/linux-desktop/hermes-agent-window" "$HOME/.local/bin/hermes-agent-wind
 cp "$ROOT/linux-desktop/hermes-agent-launcher" "$HOME/.local/bin/hermes-agent-launcher"
 chmod +x "$HOME/.local/bin/hermes-agent-window" "$HOME/.local/bin/hermes-agent-launcher"
 
+cat > "$HOME/.local/bin/hermes-agent-settings" <<EOF
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$ROOT"
+if command -v ptyxis >/dev/null 2>&1; then
+  exec ptyxis --new-window -T "Hermes Agent Settings" -- "\$ROOT/scripts/CONFIGURE_KEYS_LINUX.sh"
+elif command -v gnome-terminal >/dev/null 2>&1; then
+  exec gnome-terminal --title="Hermes Agent Settings" -- "\$ROOT/scripts/CONFIGURE_KEYS_LINUX.sh"
+elif command -v xterm >/dev/null 2>&1; then
+  exec xterm -T "Hermes Agent Settings" -e "\$ROOT/scripts/CONFIGURE_KEYS_LINUX.sh"
+else
+  exec "\$ROOT/scripts/CONFIGURE_KEYS_LINUX.sh"
+fi
+EOF
+chmod +x "$HOME/.local/bin/hermes-agent-settings"
+
 DESKTOP_FILE="$HOME/.local/share/applications/hermes-agent.desktop"
 cat > "$DESKTOP_FILE" <<'EOF'
 [Desktop Entry]
 Type=Application
 Name=Hermes Agent
-Comment=Open Hermes Agent with zoom selector
-Exec=/home/%u/.local/bin/hermes-agent-launcher
+Comment=Open Hermes Agent terminal interface
+Exec=__HOME__/.local/bin/hermes-agent-launcher
 Icon=utilities-terminal
 Terminal=false
 Categories=Development;
 StartupNotify=true
-Keywords=Hermes;Agent;AI;CLI;
+Keywords=Hermes;Hermest;Agent;AI;CLI;
 EOF
 
-python3 - "$DESKTOP_FILE" <<'PY'
-import os, sys
-path = sys.argv[1]
-home = os.path.expanduser("~")
-text = open(path, encoding="utf-8").read().replace("/home/%u", home)
-open(path, "w", encoding="utf-8").write(text)
-PY
+SETTINGS_DESKTOP_FILE="$HOME/.local/share/applications/hermes-agent-settings.desktop"
+cat > "$SETTINGS_DESKTOP_FILE" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Hermes Agent Settings
+Comment=Configure Hermes Agent API keys and model provider
+Exec=__HOME__/.local/bin/hermes-agent-settings
+Icon=preferences-system
+Terminal=false
+Categories=Settings;
+StartupNotify=true
+Keywords=Hermes;Agent;Settings;API;Keys;Model;
+EOF
 
-chmod +x "$DESKTOP_FILE"
+for file in "$DESKTOP_FILE" "$SETTINGS_DESKTOP_FILE"; do
+  escaped_home="${HOME//\\/\\\\}"
+  escaped_home="${escaped_home//&/\\&}"
+  sed -i "s#__HOME__#$escaped_home#g" "$file"
+done
+
+chmod +x "$DESKTOP_FILE" "$SETTINGS_DESKTOP_FILE"
 if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
 fi
@@ -41,9 +69,11 @@ if [[ -d "$HOME/Рабочий стол" ]]; then
 fi
 if [[ -d "$DESKTOP_DIR" ]]; then
   cp "$DESKTOP_FILE" "$DESKTOP_DIR/Hermes Agent.desktop"
+  cp "$SETTINGS_DESKTOP_FILE" "$DESKTOP_DIR/Hermes Agent Settings.desktop"
   chmod +x "$DESKTOP_DIR/Hermes Agent.desktop"
+  chmod +x "$DESKTOP_DIR/Hermes Agent Settings.desktop"
   gio set "$DESKTOP_DIR/Hermes Agent.desktop" metadata::trusted true 2>/dev/null || true
+  gio set "$DESKTOP_DIR/Hermes Agent Settings.desktop" metadata::trusted true 2>/dev/null || true
 fi
 
 echo "Linux desktop launcher installed."
-

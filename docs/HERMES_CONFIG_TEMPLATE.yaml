@@ -1,11 +1,46 @@
 display:
   skin: eva-terminal
-toolsets:
-  - hermes-cli
-  - web
+providers:
+  groq:
+    api: https://api.groq.com/openai/v1
+    api_key: ${GROQ_API_KEY}
+    default_model: qwen/qwen3-32b
+    name: groq
+  cerebras:
+    api: https://api.cerebras.ai/v1
+    api_key: ${CEREBRAS_API_KEY}
+    default_model: gpt-oss-120b
+    name: cerebras
+  gemini-openai:
+    api: https://generativelanguage.googleapis.com/v1beta/openai
+    api_key: ${GEMINI_API_KEY}
+    default_model: gemini-2.0-flash
+    name: gemini-openai
+custom_providers:
+  - name: groq
+    base_url: https://api.groq.com/openai/v1
+    api_key: ${GROQ_API_KEY}
+    model: qwen/qwen3-32b
+    max_output_tokens: 4096
+  - name: cerebras
+    base_url: https://api.cerebras.ai/v1
+    api_key: ${CEREBRAS_API_KEY}
+    model: gpt-oss-120b
+    max_output_tokens: 4096
+  - name: gemini-openai
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai
+    api_key: ${GEMINI_API_KEY}
+    model: gemini-2.0-flash
+    max_output_tokens: 4096
+fallback_providers:
+  - provider: nvidia
+    model: nvidia/nemotron-3-super-120b-a12b
+    base_url: https://integrate.api.nvidia.com/v1
+  - provider: ollama-launch
+    model: glm-5.2:cloud
+    base_url: http://127.0.0.1:11434/v1
 model:
-  # Recommended free/limited starting point if you have an OpenRouter key:
+  # Recommended free/limited starting point if the user has an OpenRouter key:
   provider: openrouter
   default: openrouter/free
   max_tokens: 4096
-

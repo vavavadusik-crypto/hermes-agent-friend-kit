@@ -25,13 +25,25 @@ $SkinDir = Join-Path $HermesHome "skins"
 New-Item -ItemType Directory -Force -Path $SkinDir | Out-Null
 Copy-Item -Force (Join-Path $PSScriptRoot "..\skins\eva-terminal.yaml") (Join-Path $SkinDir "eva-terminal.yaml")
 
-try { hermes config set display.skin eva-terminal } catch {}
-try { hermes config set toolsets '["hermes-cli","web"]' } catch {}
+$PresetScript = Join-Path $PSScriptRoot "APPLY_HERMES_PRESET.py"
+$Python = Get-Command python -ErrorAction SilentlyContinue
+if ($Python) {
+  try { & $Python.Source $PresetScript $ConfigPath } catch {}
+} else {
+  try { hermes config set display.skin eva-terminal } catch {}
+}
+
+$Desktop = [Environment]::GetFolderPath("Desktop")
+if ($Desktop) {
+  $HermesCmd = Join-Path $Desktop "Hermes Agent.cmd"
+  $SettingsCmd = Join-Path $Desktop "Hermes Agent Settings.cmd"
+  Set-Content -Path $HermesCmd -Encoding ASCII -Value "@echo off`r`nset PATH=%LOCALAPPDATA%\hermes\bin;%USERPROFILE%\.local\bin;%PATH%`r`nhermes`r`npause`r`n"
+  Set-Content -Path $SettingsCmd -Encoding ASCII -Value "@echo off`r`npowershell -NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\CONFIGURE_KEYS_WINDOWS.ps1`"`r`npause`r`n"
+}
 
 Write-Host ""
 Write-Host "Hermes installed/configured."
 Write-Host "Next:"
-Write-Host "1. Edit scripts\SET_KEYS_WINDOWS.ps1 and paste your own keys."
-Write-Host "2. Run: .\scripts\SET_KEYS_WINDOWS.ps1"
+Write-Host "1. Run: .\scripts\CONFIGURE_KEYS_WINDOWS.ps1"
+Write-Host "2. Add your own API keys when asked."
 Write-Host "3. Start: hermes"
-
