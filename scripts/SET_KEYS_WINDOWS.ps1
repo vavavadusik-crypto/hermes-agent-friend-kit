@@ -2,6 +2,7 @@ $ErrorActionPreference = "Stop"
 
 # Paste your own keys between the quotes. Leave empty if you do not use a provider.
 $OPENROUTER_API_KEY = ""
+$OPENAI_API_KEY = ""
 $GROQ_API_KEY = ""
 $CEREBRAS_API_KEY = ""
 $GEMINI_API_KEY = ""
@@ -36,6 +37,7 @@ function Upsert-EnvLine($Key, $Value) {
 }
 
 Upsert-EnvLine "OPENROUTER_API_KEY" $OPENROUTER_API_KEY
+Upsert-EnvLine "OPENAI_API_KEY" $OPENAI_API_KEY
 Upsert-EnvLine "GROQ_API_KEY" $GROQ_API_KEY
 Upsert-EnvLine "CEREBRAS_API_KEY" $CEREBRAS_API_KEY
 Upsert-EnvLine "GEMINI_API_KEY" $GEMINI_API_KEY
@@ -47,14 +49,18 @@ if ($OPENROUTER_API_KEY) {
   try { hermes config set model.provider openrouter } catch {}
   try { hermes config set model.default openrouter/free } catch {}
 } elseif ($GROQ_API_KEY) {
-  try { hermes config set model.provider groq } catch {}
+  try { hermes config set model.provider custom:groq } catch {}
   try { hermes config set model.default qwen/qwen3-32b } catch {}
 } elseif ($CEREBRAS_API_KEY) {
-  try { hermes config set model.provider cerebras } catch {}
+  try { hermes config set model.provider custom:cerebras } catch {}
   try { hermes config set model.default gpt-oss-120b } catch {}
 } elseif ($GEMINI_API_KEY) {
   try { hermes config set model.provider gemini } catch {}
   try { hermes config set model.default gemini-2.0-flash } catch {}
+} elseif ($OPENAI_API_KEY) {
+  try { hermes config set model.provider openai-api } catch {}
+  try { hermes config set model.default gpt-5.6-terra } catch {}
+  try { hermes config set agent.reasoning_effort medium } catch {}
 } else {
   Write-Host "No cloud model key set. You can still use Ollama/local models if configured."
 }
@@ -63,4 +69,3 @@ try { hermes config set display.skin eva-terminal } catch {}
 
 Write-Host "Keys written to: $EnvPath"
 Write-Host "Run: hermes"
-

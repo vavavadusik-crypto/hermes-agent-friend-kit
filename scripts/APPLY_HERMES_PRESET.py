@@ -45,6 +45,12 @@ CUSTOM_PROVIDERS = [
 ]
 
 PROVIDERS = {
+    "openai-api": {
+        "api": "https://api.openai.com/v1",
+        "api_key": "${OPENAI_API_KEY}",
+        "default_model": "gpt-5.6-terra",
+        "name": "OpenAI API",
+    },
     "groq": {
         "api": "https://api.groq.com/openai/v1",
         "api_key": "${GROQ_API_KEY}",
@@ -69,9 +75,30 @@ PROVIDERS = {
         "default_model": "command-r-plus-08-2024",
         "name": "cohere",
     },
+    "ollama-launch": {
+        "api": "http://127.0.0.1:11434/v1",
+        "default_model": "omnicoder-9b-65536ctx:latest",
+        "models": [
+            "omnicoder-9b-65536ctx:latest",
+            "carstenuhlig/omnicoder-9b:latest",
+        ],
+        "name": "Ollama",
+    },
 }
 
 FALLBACK_PROVIDERS = [
+    {
+        "provider": "custom:groq",
+        "model": "qwen/qwen3-32b",
+    },
+    {
+        "provider": "custom:cerebras",
+        "model": "gpt-oss-120b",
+    },
+    {
+        "provider": "gemini",
+        "model": "gemini-2.0-flash",
+    },
     {
         "provider": "nvidia",
         "model": "nvidia/nemotron-3-super-120b-a12b",
@@ -79,7 +106,7 @@ FALLBACK_PROVIDERS = [
     },
     {
         "provider": "ollama-launch",
-        "model": "glm-5.2:cloud",
+        "model": "omnicoder-9b-65536ctx:latest",
         "base_url": "http://127.0.0.1:11434/v1",
     },
 ]

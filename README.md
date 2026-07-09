@@ -100,6 +100,12 @@ hermes
 
 See `docs/FREE_KEYS_AND_APIS.md`.
 
+## GPT-5.6
+
+GPT-5.6 is included as an optional premium route, not the default free route.
+Use `gpt-5.6-terra` for first paid checks and `gpt-5.6-sol` only for hard
+review or final polish. See `docs/GPT_5_6_AND_FALLBACK_ROUTING.md`.
+
 ## Troubleshooting
 
 Run:

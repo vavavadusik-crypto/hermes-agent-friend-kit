@@ -1,6 +1,11 @@
 display:
   skin: eva-terminal
 providers:
+  openai-api:
+    api: https://api.openai.com/v1
+    api_key: ${OPENAI_API_KEY}
+    default_model: gpt-5.6-terra
+    name: OpenAI API
   groq:
     api: https://api.groq.com/openai/v1
     api_key: ${GROQ_API_KEY}
@@ -16,6 +21,13 @@ providers:
     api_key: ${GEMINI_API_KEY}
     default_model: gemini-2.0-flash
     name: gemini-openai
+  ollama-launch:
+    api: http://127.0.0.1:11434/v1
+    default_model: omnicoder-9b-65536ctx:latest
+    models:
+      - omnicoder-9b-65536ctx:latest
+      - carstenuhlig/omnicoder-9b:latest
+    name: Ollama
 custom_providers:
   - name: groq
     base_url: https://api.groq.com/openai/v1
@@ -33,11 +45,17 @@ custom_providers:
     model: gemini-2.0-flash
     max_output_tokens: 4096
 fallback_providers:
+  - provider: custom:groq
+    model: qwen/qwen3-32b
+  - provider: custom:cerebras
+    model: gpt-oss-120b
+  - provider: gemini
+    model: gemini-2.0-flash
   - provider: nvidia
     model: nvidia/nemotron-3-super-120b-a12b
     base_url: https://integrate.api.nvidia.com/v1
   - provider: ollama-launch
-    model: glm-5.2:cloud
+    model: omnicoder-9b-65536ctx:latest
     base_url: http://127.0.0.1:11434/v1
 model:
   # Recommended free/limited starting point if the user has an OpenRouter key:

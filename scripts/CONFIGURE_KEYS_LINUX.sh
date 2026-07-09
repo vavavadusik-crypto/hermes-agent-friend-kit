@@ -72,6 +72,8 @@ choose_provider() {
       "Z.AI / GLM" \
       "Kimi / Moonshot" \
       "Ollama local/no key" \
+      "OpenAI GPT-5.6 Terra" \
+      "OpenAI GPT-5.6 Sol" \
       "Skip provider setup" \
       2>/tmp/hermes-settings.log || true
   else
@@ -85,11 +87,13 @@ Choose the main provider to configure now:
 6) Z.AI / GLM
 7) Kimi / Moonshot
 8) Ollama local/no key
-9) Skip provider setup
+9) OpenAI GPT-5.6 Terra
+10) OpenAI GPT-5.6 Sol
+11) Skip provider setup
 MENU
-    printf 'Choice [1-9]: '
+    printf 'Choice [1-11]: '
     local choice
-    read -r choice || choice="9"
+    read -r choice || choice="11"
     case "$choice" in
       1) echo "OpenRouter free/low-cost" ;;
       2) echo "Groq" ;;
@@ -99,6 +103,8 @@ MENU
       6) echo "Z.AI / GLM" ;;
       7) echo "Kimi / Moonshot" ;;
       8) echo "Ollama local/no key" ;;
+      9) echo "OpenAI GPT-5.6 Terra" ;;
+      10) echo "OpenAI GPT-5.6 Sol" ;;
       *) echo "Skip provider setup" ;;
     esac
   fi
@@ -150,7 +156,21 @@ case "$provider" in
     ;;
   "Ollama local/no key")
     hermes config set model.provider ollama-launch || true
-    hermes config set model.default glm-5.2:cloud || true
+    hermes config set model.default omnicoder-9b-65536ctx:latest || true
+    ;;
+  "OpenAI GPT-5.6 Terra")
+    key="$(prompt_secret "OPENAI_API_KEY")"
+    upsert_env OPENAI_API_KEY "$key"
+    hermes config set model.provider openai-api || true
+    hermes config set model.default gpt-5.6-terra || true
+    hermes config set agent.reasoning_effort medium || true
+    ;;
+  "OpenAI GPT-5.6 Sol")
+    key="$(prompt_secret "OPENAI_API_KEY")"
+    upsert_env OPENAI_API_KEY "$key"
+    hermes config set model.provider openai-api || true
+    hermes config set model.default gpt-5.6-sol || true
+    hermes config set agent.reasoning_effort medium || true
     ;;
 esac
 

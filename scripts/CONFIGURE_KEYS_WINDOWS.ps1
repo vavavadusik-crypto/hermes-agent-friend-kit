@@ -52,8 +52,10 @@ Write-Host "5) NVIDIA NIM"
 Write-Host "6) Z.AI / GLM"
 Write-Host "7) Kimi / Moonshot"
 Write-Host "8) Ollama local/no key"
-Write-Host "9) Skip provider setup"
-$choice = Read-Host "Choice [1-9]"
+Write-Host "9) OpenAI GPT-5.6 Terra"
+Write-Host "10) OpenAI GPT-5.6 Sol"
+Write-Host "11) Skip provider setup"
+$choice = Read-Host "Choice [1-11]"
 
 switch ($choice) {
   "1" {
@@ -100,7 +102,21 @@ switch ($choice) {
   }
   "8" {
     try { hermes config set model.provider ollama-launch } catch {}
-    try { hermes config set model.default glm-5.2:cloud } catch {}
+    try { hermes config set model.default omnicoder-9b-65536ctx:latest } catch {}
+  }
+  "9" {
+    $key = Read-SecretText "OPENAI_API_KEY"
+    Upsert-EnvLine "OPENAI_API_KEY" $key
+    try { hermes config set model.provider openai-api } catch {}
+    try { hermes config set model.default gpt-5.6-terra } catch {}
+    try { hermes config set agent.reasoning_effort medium } catch {}
+  }
+  "10" {
+    $key = Read-SecretText "OPENAI_API_KEY"
+    Upsert-EnvLine "OPENAI_API_KEY" $key
+    try { hermes config set model.provider openai-api } catch {}
+    try { hermes config set model.default gpt-5.6-sol } catch {}
+    try { hermes config set agent.reasoning_effort medium } catch {}
   }
 }
 

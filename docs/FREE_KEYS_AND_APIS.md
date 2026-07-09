@@ -9,6 +9,7 @@
 3. **Cerebras** - быстрый inference, есть Free tier.
 4. **Gemini API / Google AI Studio** - хороший бесплатный/limited ключ для Gemini.
 5. **Ollama** - без cloud key, локально на компьютере, но зависит от железа.
+6. **OpenAI GPT-5.6** - premium-провайдер, не бесплатный; использовать для точечных сложных задач.
 
 ## OpenRouter
 
@@ -80,6 +81,29 @@ ollama serve
 hermes model
 ```
 
+В этом kit пункт `Ollama local/no key` выбирает локальную модель
+`omnicoder-9b-65536ctx:latest`, если она есть в Ollama. Не путай это с
+`glm-5.2:cloud`: cloud-модели Ollama могут иметь лимиты подписки.
+
+## OpenAI GPT-5.6
+
+- Latest model guide: https://developers.openai.com/api/docs/guides/latest-model.md
+- Migration guide: https://developers.openai.com/api/docs/guides/upgrading-to-gpt-5p6-sol.md
+- Prompting guide: https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
+- API keys: https://platform.openai.com/api-keys
+
+Ключ вставляется как `OPENAI_API_KEY`.
+
+Роли моделей:
+
+- `gpt-5.6-sol` / alias `gpt-5.6` - максимум качества, самый дорогой путь.
+- `gpt-5.6-terra` - баланс качества и цены, рекомендуемый старт для ручной проверки.
+- `gpt-5.6-luna` - более дешёвый high-volume путь.
+
+Для экономии не ставь GPT-5.6 дефолтом, пока бесплатные/limited провайдеры
+закрывают задачу. В настройках Hermes выбирай GPT-5.6 только для сложной
+проверки, ревью, архитектуры и финальной полировки.
+
 ## Безопасность ключей
 
 - Не отправляй ключи в чат.
@@ -87,4 +111,3 @@ hermes model
 - Не делай скриншоты с ключами.
 - Если ключ утёк, удали его в кабинете провайдера и создай новый.
 - Для Google/Gemini включай ограничения ключа.
-

@@ -3,6 +3,7 @@ set -euo pipefail
 
 # Paste your own keys between the quotes. Leave empty if you do not use a provider.
 OPENROUTER_API_KEY=""
+OPENAI_API_KEY=""
 GROQ_API_KEY=""
 CEREBRAS_API_KEY=""
 GEMINI_API_KEY=""
@@ -37,6 +38,7 @@ upsert_env() {
 }
 
 upsert_env OPENROUTER_API_KEY "$OPENROUTER_API_KEY"
+upsert_env OPENAI_API_KEY "$OPENAI_API_KEY"
 upsert_env GROQ_API_KEY "$GROQ_API_KEY"
 upsert_env CEREBRAS_API_KEY "$CEREBRAS_API_KEY"
 upsert_env GEMINI_API_KEY "$GEMINI_API_KEY"
@@ -48,14 +50,18 @@ if [[ -n "$OPENROUTER_API_KEY" ]]; then
   hermes config set model.provider openrouter || true
   hermes config set model.default openrouter/free || true
 elif [[ -n "$GROQ_API_KEY" ]]; then
-  hermes config set model.provider groq || true
+  hermes config set model.provider custom:groq || true
   hermes config set model.default qwen/qwen3-32b || true
 elif [[ -n "$CEREBRAS_API_KEY" ]]; then
-  hermes config set model.provider cerebras || true
+  hermes config set model.provider custom:cerebras || true
   hermes config set model.default gpt-oss-120b || true
 elif [[ -n "$GEMINI_API_KEY" ]]; then
   hermes config set model.provider gemini || true
   hermes config set model.default gemini-2.0-flash || true
+elif [[ -n "$OPENAI_API_KEY" ]]; then
+  hermes config set model.provider openai-api || true
+  hermes config set model.default gpt-5.6-terra || true
+  hermes config set agent.reasoning_effort medium || true
 else
   echo "No cloud model key set. You can still use Ollama/local models if configured."
 fi
@@ -64,4 +70,3 @@ hermes config set display.skin eva-terminal || true
 
 echo "Keys written to: $ENV_PATH"
 echo "Run: hermes"
-
