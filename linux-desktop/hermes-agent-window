@@ -6,7 +6,12 @@ clear
 printf 'Starting Hermes Agent...\n\n'
 
 if command -v hermes-agent-auto-route >/dev/null 2>&1; then
-  hermes-agent-auto-route || true
+  printf 'Checking provider route...\n'
+  if ! hermes-agent-auto-route --quiet >/tmp/hermes-agent-switcher-last.log 2>&1; then
+    printf 'No working cloud provider right now. Local Ollama is disabled to protect weak laptops.\n'
+    printf 'Open Hermes Agent Settings, wait for limits to reset, or set HERMES_AGENT_ALLOW_LOCAL=1 manually.\n\n'
+    exec bash -i
+  fi
   printf '\n'
 fi
 

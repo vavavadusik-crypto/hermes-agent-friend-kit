@@ -11,12 +11,14 @@
 3. **Gemini API / Google AI Studio** - хороший бесплатный/limited ключ для Gemini.
 4. **NVIDIA NIM** - free/limited developer inference, если есть доступный ключ.
 5. **OpenRouter** - самый удобный ручной старт: один ключ и много моделей, включая free router.
-6. **Ollama** - без cloud key, локально на компьютере, но зависит от железа.
-7. **OpenAI GPT-5.6** - premium-провайдер, не бесплатный; использовать для точечных сложных задач.
+6. **Ollama cloud** - если есть активная квота подписки Ollama.
+7. **Ollama local** - вручную, только если железо тянет.
+8. **OpenAI GPT-5.6** - premium-провайдер, не бесплатный; использовать для точечных сложных задач.
 
 Если вставлено несколько ключей, launcher сначала выберет самый верхний
-доступный provider из этого списка. Если ключей нет, будет выбран локальный
-Ollama route.
+доступный provider из этого списка. Локальный Ollama route не включается
+автоматически на слабых ноутбуках; для ручного разрешения нужен
+`HERMES_AGENT_ALLOW_LOCAL=1`.
 
 ## OpenRouter
 
@@ -99,6 +101,13 @@ hermes model
 В этом kit пункт `Ollama local/no key` выбирает локальную модель
 `omnicoder-9b-65536ctx:latest`, если она есть в Ollama. Не путай это с
 `glm-5.2:cloud`: cloud-модели Ollama могут иметь лимиты подписки.
+
+Важно: auto-route не ставит локальную модель автоматически. Это защита слабых
+ноутбуков от перегрева и зависаний. Включай local fallback только вручную:
+
+```bash
+HERMES_AGENT_ALLOW_LOCAL=1 hermes-agent-auto-route
+```
 
 ## OpenAI GPT-5.6
 

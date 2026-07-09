@@ -42,7 +42,8 @@ $env:HERMES_KIT_CONFIGURE_AFTER="1"; irm https://raw.githubusercontent.com/vavav
 | 3 | Gemini | `GEMINI_API_KEY` | `gemini` / `gemini-2.0-flash` |
 | 4 | NVIDIA NIM | `NVIDIA_API_KEY` | `nvidia` / `nvidia/nemotron-3-super-120b-a12b` |
 | 5 | OpenRouter | `OPENROUTER_API_KEY` | `openrouter` / `openrouter/free` |
-| 6 | Ollama local | ключ не нужен | `omnicoder-9b-65536ctx:latest` |
+| 6 | Ollama cloud | Ollama login/subscription | `glm-5.2:cloud` или `kimi-k2.7-code:cloud` |
+| manual | Ollama local | ключ не нужен | только если включить `HERMES_AGENT_ALLOW_LOCAL=1` |
 | optional | OpenAI | `OPENAI_API_KEY` | `gpt-5.6-terra` или `gpt-5.6-sol` |
 
 OpenAI GPT-5.6 здесь добавлен как платный premium route, а не как бесплатный
@@ -65,8 +66,11 @@ OpenAI GPT-5.6 здесь добавлен как платный premium route, 
 
 Перед каждым запуском desktop launcher смотрит локальный `.env` Hermes Agent и
 обновляет `config.yaml`. Он не показывает ключи и не отправляет их в GitHub.
-Если ключ Groq есть, выбирается Groq. Если Groq нет, пробуется Cerebras, потом
-Gemini, NVIDIA, OpenRouter. Если cloud-ключей нет, остается локальный Ollama.
+Если ключ Groq есть и он реально отвечает, выбирается Groq. Если Groq не
+работает, пробуется Cerebras, потом Gemini, NVIDIA, OpenRouter и Ollama cloud.
+Локальный Ollama не включается автоматически, чтобы слабый ноутбук не зависал и
+не грелся. Для ручного local fallback нужно явно выставить
+`HERMES_AGENT_ALLOW_LOCAL=1`.
 
 Это сделано, чтобы Hermes не падал на одном provider и не тратил платные модели
 без явного выбора пользователя.

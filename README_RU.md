@@ -80,6 +80,8 @@ chmod +x scripts/*.sh linux-desktop/*.sh
 Каждый запуск `Hermes Agent` сначала делает auto-route: выбирает лучший
 доступный бесплатный/limited provider, обновляет fallback chain и не ставит
 Ollama cloud-модели автоматически.
+Локальные Ollama-модели не выбираются автоматически на слабых ноутбуках. Чтобы
+явно разрешить local fallback, запускай launcher с `HERMES_AGENT_ALLOW_LOCAL=1`.
 
 Горячие клавиши остаются стандартными для терминала:
 

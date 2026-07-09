@@ -12,11 +12,14 @@ route uses this order:
 3. Gemini.
 4. NVIDIA NIM.
 5. OpenRouter free/low-cost, if the user has a key.
-6. Local Ollama `omnicoder-9b-65536ctx:latest`.
+6. Ollama cloud models, if the account has active quota.
 
 OpenRouter is still documented as the easiest manual starting point because one
 key can route to many models, but the automatic launcher prefers the fast
 free/limited inference providers first.
+
+Local Ollama is disabled by default in auto-route because weak laptops can lock
+up on 7B/9B local models. Enable it explicitly with `HERMES_AGENT_ALLOW_LOCAL=1`.
 
 Do not put Ollama cloud models such as `glm-5.2:cloud` in the automatic
 fallback chain unless the user explicitly wants to spend Ollama cloud quota.

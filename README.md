@@ -66,6 +66,8 @@ It also installs `Hermes Agent Settings` for API keys and model provider setup.
 Each desktop launch runs a small auto-route check first: it keeps free or
 limited providers first, refreshes the fallback chain, and avoids Ollama cloud
 models unless the user selects them manually.
+Local Ollama models are not selected automatically on weak laptops. To allow
+local fallback explicitly, start the launcher with `HERMES_AGENT_ALLOW_LOCAL=1`.
 It opens Hermes in the normal system terminal when possible, so terminal
 shortcuts stay standard:
 
