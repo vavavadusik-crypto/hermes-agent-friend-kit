@@ -1,0 +1,56 @@
+name: eva-terminal
+description: Blacksite terminal skin with Hermes neon accents and original Hermes banner art
+colors:
+  banner_border: "#00E5FF"
+  banner_title: "#FFB000"
+  banner_accent: "#7CFF6B"
+  banner_dim: "#6B7280"
+  banner_text: "#D7FFE8"
+  ui_accent: "#FF2A6D"
+  ui_label: "#00E5FF"
+  ui_ok: "#7CFF6B"
+  ui_error: "#FF2A6D"
+  ui_warn: "#FFB000"
+  prompt: "#7CFF6B"
+  input_rule: "#FF2A6D"
+  response_border: "#00E5FF"
+  status_bar_bg: "#050507"
+  status_bar_text: "#D7FFE8"
+  status_bar_strong: "#FFB000"
+  status_bar_dim: "#6B7280"
+  status_bar_good: "#7CFF6B"
+  status_bar_warn: "#FFB000"
+  status_bar_bad: "#FF7A1A"
+  status_bar_critical: "#FF2A6D"
+  session_label: "#00E5FF"
+  session_border: "#6B7280"
+  voice_status_bg: "#050507"
+  selection_bg: "#252A33"
+  completion_menu_bg: "#050507"
+  completion_menu_current_bg: "#1E293B"
+  completion_menu_meta_bg: "#050507"
+  completion_menu_meta_current_bg: "#1E293B"
+spinner:
+  waiting_faces:
+    - "[HM]"
+    - "[AI]"
+    - "[SYS]"
+  thinking_faces:
+    - "[sync]"
+    - "[root]"
+    - "[trace]"
+  thinking_verbs:
+    - syncing
+    - tracing
+    - compiling
+    - routing
+    - isolating
+branding:
+  agent_name: "Hermes Agent"
+  welcome: "Hermes online. Type your message or /help for commands."
+  goodbye: "Hermes offline."
+  response_label: " Hermes "
+  prompt_symbol: "H>"
+  help_header: "[H] Available Commands"
+tool_prefix: "|"
+

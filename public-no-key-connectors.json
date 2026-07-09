@@ -1,0 +1,40 @@
+{
+  "wikipedia_search": {
+    "requires_key": false,
+    "endpoint": "https://en.wikipedia.org/w/api.php",
+    "example": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Hermes%20Agent&format=json"
+  },
+  "wikimedia_commons": {
+    "requires_key": false,
+    "endpoint": "https://commons.wikimedia.org/w/api.php",
+    "example": "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=AI%20agent&format=json"
+  },
+  "wikidata_sparql": {
+    "requires_key": false,
+    "endpoint": "https://query.wikidata.org/sparql",
+    "notes": "Use responsibly and set a User-Agent for repeated requests."
+  },
+  "crossref": {
+    "requires_key": false,
+    "endpoint": "https://api.crossref.org/works",
+    "example": "https://api.crossref.org/works?query=autonomous%20agents&rows=5",
+    "notes": "No signup required. Polite mode with mailto is recommended."
+  },
+  "arxiv": {
+    "requires_key": false,
+    "endpoint": "https://export.arxiv.org/api/query",
+    "example": "https://export.arxiv.org/api/query?search_query=all:agentic%20ai&start=0&max_results=5"
+  },
+  "open_library": {
+    "requires_key": false,
+    "endpoint": "https://openlibrary.org/search.json",
+    "example": "https://openlibrary.org/search.json?q=artificial%20intelligence&limit=5"
+  },
+  "github_public_search": {
+    "requires_key": false,
+    "endpoint": "https://api.github.com/search/repositories",
+    "example": "https://api.github.com/search/repositories?q=hermes+agent&per_page=5",
+    "notes": "Works without token at lower limits; use GITHUB_TOKEN for better limits."
+  }
+}
+

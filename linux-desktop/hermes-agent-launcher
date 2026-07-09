@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -eu
+
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/hermes-agent-launcher"
+zoom_file="$config_dir/zoom-percent"
+mkdir -p "$config_dir"
+
+default_zoom="90"
+if [[ -r "$zoom_file" ]]; then
+  saved_zoom="$(tr -cd '0-9' < "$zoom_file" | head -c 3 || true)"
+  if [[ -n "$saved_zoom" ]]; then
+    default_zoom="$saved_zoom"
+  fi
+fi
+
+zoom="${HERMES_AGENT_ZOOM:-$default_zoom}"
+if [[ -n "${HERMES_AGENT_ZOOM:-}" ]]; then
+  zoom="$(printf '%s' "$HERMES_AGENT_ZOOM" | tr -cd '0-9' | head -c 3)"
+elif command -v zenity >/dev/null 2>&1 && [[ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]]; then
+  selected="$(
+    zenity --scale \
+      --title="Hermes Agent Zoom" \
+      --text="Choose Hermes Agent text scale" \
+      --min-value=70 \
+      --max-value=150 \
+      --value="$default_zoom" \
+      --step=5 \
+      --ok-label="Launch" \
+      --cancel-label="Cancel" \
+      2>/tmp/hermes-agent-zoom.log
+  )" || exit 0
+  zoom="$(printf '%s' "$selected" | tr -cd '0-9' | head -c 3)"
+elif [[ -t 0 ]]; then
+  printf 'Hermes Agent zoom percent [%s]: ' "$default_zoom"
+  read -r selected || selected=""
+  zoom="$(printf '%s' "${selected:-$default_zoom}" | tr -cd '0-9' | head -c 3)"
+fi
+
+case "$zoom" in
+  ''|*[!0-9]*) zoom="$default_zoom" ;;
+esac
+if (( zoom < 70 )); then zoom=70; fi
+if (( zoom > 150 )); then zoom=150; fi
+printf '%s\n' "$zoom" > "$zoom_file"
+
+base_font=13
+font_size=$(( (base_font * zoom + 50) / 100 ))
+if (( font_size < 9 )); then font_size=9; fi
+if (( font_size > 24 )); then font_size=24; fi
+
+translations=$'#override\n\
+Ctrl Shift <Key>C: copy-selection(CLIPBOARD)\n\
+Ctrl Shift <Key>V: insert-selection(CLIPBOARD)\n\
+Shift <Key>Insert: insert-selection(CLIPBOARD)\n\
+Ctrl <Btn4Down>: larger-vt-font()\n\
+Ctrl <Btn5Down>: smaller-vt-font()\n\
+Ctrl <Key> +: larger-vt-font()\n\
+Ctrl <Key> -: smaller-vt-font()\n\
+Ctrl <Key> KP_Add: larger-vt-font()\n\
+Ctrl <Key> KP_Subtract: smaller-vt-font()'
+
+if ! command -v xterm >/dev/null 2>&1; then
+  echo "xterm is required for the desktop launcher. Install xterm or run: hermes"
+  exit 1
+fi
+
+setsid -f xterm \
+  -T "Hermes Agent" \
+  -fa "Monospace" \
+  -fs "$font_size" \
+  -geometry 122x36 \
+  -bg "#050507" \
+  -fg "#D7FFE8" \
+  -cr "#FF2A6D" \
+  -bd "#00E5FF" \
+  -xrm "XTerm*VT100.translations: $translations" \
+  -xrm "XTerm*scrollBar: true" \
+  -xrm "XTerm*rightScrollBar: true" \
+  -xrm "XTerm*saveLines: 20000" \
+  -xrm "XTerm*highlightColor: #FFB000" \
+  -xrm "XTerm*pointerColor: #00E5FF" \
+  -hold \
+  -e "$HOME/.local/bin/hermes-agent-window" \
+  >/tmp/hermes-agent-launcher.log 2>&1

@@ -1,0 +1,17 @@
+.env
+*.env
+!.env.example
+secrets.*
+tokens.*
+*.key
+*.pem
+*.p12
+*.pfx
+node_modules/
+.venv/
+venv/
+__pycache__/
+.DS_Store
+Thumbs.db
+*.log
+

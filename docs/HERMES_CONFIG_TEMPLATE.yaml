@@ -1,0 +1,11 @@
+display:
+  skin: eva-terminal
+toolsets:
+  - hermes-cli
+  - web
+model:
+  # Recommended free/limited starting point if you have an OpenRouter key:
+  provider: openrouter
+  default: openrouter/free
+  max_tokens: 4096
+
