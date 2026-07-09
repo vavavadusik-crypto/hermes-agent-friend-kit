@@ -24,6 +24,10 @@ mkdir -p "$release_dir"
 cp setup/Hermes-Agent-Setup-Linux.sh "$release_dir/Hermes-Agent-Setup-Linux.sh"
 cp setup/Hermes-Agent-Setup-Windows.cmd "$release_dir/Hermes-Agent-Setup-Windows.cmd"
 git archive --format=zip --output="$release_dir/hermes-agent-friend-kit-$version.zip" HEAD
+(
+  cd "$release_dir"
+  sha256sum Hermes-Agent-Setup-Linux.sh Hermes-Agent-Setup-Windows.cmd hermes-agent-friend-kit-$version.zip > SHA256SUMS.txt
+)
 ```
 
 ## 4. Publish release
@@ -33,6 +37,7 @@ gh release create "$version" \
   "$release_dir/Hermes-Agent-Setup-Linux.sh" \
   "$release_dir/Hermes-Agent-Setup-Windows.cmd" \
   "$release_dir/hermes-agent-friend-kit-$version.zip" \
+  "$release_dir/SHA256SUMS.txt" \
   --target main \
   --title "Hermes Agent Friend Kit $version" \
   --notes "Release notes here."

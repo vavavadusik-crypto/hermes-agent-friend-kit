@@ -5,6 +5,8 @@ All notable public changes to Hermes Agent Friend Kit are summarized here.
 ## v1.1.4 - GitHub hygiene and docs alignment
 
 - Added GitHub maintenance docs and status checklists.
+- Added GitHub Actions validation, issue templates, and pull request template.
+- Added release checksum workflow documentation.
 - Clarified that local Ollama is disabled by default in auto-route.
 - Clarified that auto-route verifies real generation endpoints and skips
   exhausted or unauthorized providers.

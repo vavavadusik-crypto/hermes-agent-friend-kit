@@ -62,7 +62,7 @@ a heavy local model on weak laptops.
 
 ## Next hardening steps
 
-- Add CI for shell syntax, Python compile, secret scan, and docs link checks.
+- Add docs link checks to CI.
 - Smoke-test Windows setup.
 - Add screenshots or a short install video.
-- Add checksums for release assets.
+- Add automated checksum verification instructions for release assets.
